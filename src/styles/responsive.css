@@ -1,0 +1,252 @@
+/* Tanvi — responsive-only patch
+   IMPORTANT: this file is intentionally limited to tablet/mobile rules.
+   It does not redefine your desktop colors, fonts, buttons, spacing, or layout.
+*/
+
+html, body { max-width: 100%; overflow-x: hidden; }
+
+button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+
+#studio { width: 100%; }
+#studio canvas { touch-action: pan-y; }
+
+@media (max-width: 960px) {
+  nav {
+    padding-left: max(5vw, env(safe-area-inset-left));
+    padding-right: max(5vw, env(safe-area-inset-right));
+  }
+
+  nav ul {
+    width: min(320px, calc(100vw - 32px));
+    max-height: calc(100svh - 82px);
+    overflow-y: auto;
+    right: 16px;
+    padding: 14px;
+    gap: 4px;
+    border-radius: 18px;
+    backdrop-filter: blur(16px);
+  }
+
+  nav ul li,
+  nav ul li a { width: 100%; }
+
+  nav ul li a:not(.btn) {
+    display: block;
+    padding: 11px 12px;
+    border-radius: 10px;
+  }
+
+  nav ul .btn {
+    width: 100%;
+    text-align: center;
+    margin-top: 6px;
+  }
+}
+
+@media (max-width: 900px) {
+  .book { grid-template-columns: 1fr; }
+  .summary { position: static; order: 2; }
+}
+
+@media (max-width: 860px) {
+  .desksec, .proj { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 800px) {
+  .about { grid-template-columns: 1fr; }
+  .lbi { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 760px) {
+  .fr, .fr.f1 { width: 100%; margin: 0; }
+  .band { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 700px) {
+  #studio {
+    height: 100svh;
+    min-height: 620px;
+    max-height: none;
+  }
+
+  .hero {
+    left: 16px;
+    right: 16px;
+    bottom: 132px;
+    width: auto;
+    max-width: none;
+    padding: 15px 17px;
+    border-radius: 18px;
+    z-index: 3;
+  }
+
+  .hero h1 {
+    font-size: clamp(32px, 9.5vw, 46px);
+    line-height: .98;
+  }
+
+  .hero p {
+    display: block;
+    font-size: 12px;
+    line-height: 1.45;
+    margin: 7px 0 0;
+  }
+
+  .chips {
+    left: 16px;
+    right: 0;
+    bottom: max(24px, env(safe-area-inset-bottom));
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 4px 16px 10px 0;
+    scrollbar-width: none;
+    z-index: 4;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .chips::-webkit-scrollbar { display: none; }
+
+  .chips a {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding: 9px 16px;
+    font-size: 11px;
+  }
+
+  .tag { display: none; }
+
+  .page {
+    padding-top: 104px;
+    padding-bottom: 64px;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .page > header { margin-bottom: 28px; }
+  .page > header h1 { font-size: clamp(38px, 12vw, 54px); line-height: .98; overflow-wrap: anywhere; }
+  .intro, .long { font-size: 15px; line-height: 1.55; }
+
+  .hrow { align-items: flex-start; }
+  .hrow .btn.up { width: 100%; margin: 4px 0 0; }
+
+  .row { width: 100%; gap: 9px; }
+  .row > .btn { flex: 1 1 150px; text-align: center; }
+
+  .grid, .grid.sm, .mgrid, .svcgrid, .agrid, .notes {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .frame { border-width: 7px; padding: 7px; }
+
+  .frames {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin-top: 28px;
+  }
+
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .tile { width: 100%; }
+  .tx { height: 130px; }
+  .tx.tall { height: 180px; }
+
+  .wallsec, .desksec, .shelfsec { padding: 72px 18px; }
+  .desksec { display: flex; flex-direction: column; gap: 38px; align-items: stretch; }
+  .papers { height: 350px; width: 100%; }
+  .sheet { width: 78%; }
+  .sheet.s1 { left: 20%; }
+  .sheet.s2 { left: 10%; }
+
+  .band { margin-top: 0; padding: 72px 18px; gap: 30px; }
+  .tree.big { width: 150px; }
+
+  .tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-right: -18px;
+    padding-right: 18px;
+    padding-bottom: 5px;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tabs a, .tabs button { flex: 0 0 auto; white-space: nowrap; }
+
+  .proj { gap: 28px; }
+  .analysis { margin: 50px 0; }
+  .acard { padding: 20px; }
+  .rose { width: 100px; }
+  .papers2 .sheet { width: 100%; }
+
+  .about { gap: 28px; }
+  .portrait .btn { width: 100%; }
+  .insp { display: grid; grid-template-columns: 1fr 1fr; }
+  .insp span { min-height: 74px; display: grid; place-items: center; text-align: center; padding: 12px; }
+
+  .bform, .summary { padding: 20px 17px; }
+  .stepper { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+  .stepper li { min-width: 0; font-size: 9px; line-height: 1.25; letter-spacing: .04em; }
+  .stepper li span { display: block; margin: 0 0 3px; font-size: 10px; }
+  .cal { width: 100%; max-width: none; }
+  .calh b { font-size: 15px; }
+  .calg { gap: 2px; }
+  .calg button { min-height: 40px; }
+  .chips2 { gap: 7px; }
+  .chips2 button { flex: 1 1 120px; }
+  .summary .btn { width: 100%; text-align: center; }
+
+  .lb {
+    padding: max(10px, env(safe-area-inset-top)) 10px max(10px, env(safe-area-inset-bottom)) 10px;
+    align-items: start;
+  }
+
+  .modal {
+    width: 100%;
+    max-width: none;
+    max-height: calc(100svh - 20px);
+    margin-top: 5px;
+    padding: 22px 16px;
+    border-radius: 18px;
+  }
+
+  .modal .x { top: 8px; right: 8px; width: 40px; height: 40px; }
+  .crop { display: flex; flex-direction: column; gap: 14px; }
+  .crop canvas { width: min(100%, 320px); height: auto; max-width: 100%; align-self: center; }
+  .ctl { width: 100%; min-width: 0; }
+  .ctl .btn, .ctl label.btn { width: 100%; text-align: center; }
+  .lbi { grid-template-columns: 1fr; max-height: calc(100svh - 20px); border-radius: 18px; }
+  .lbi img { max-height: 48svh; }
+  .lbt { padding: 20px; }
+
+  footer {
+    padding: 38px 18px 50px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
+  }
+  footer .lock { margin-left: 0; }
+
+  .editbar {
+    left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 380px) {
+  .logo { font-size: 16px; letter-spacing: .22em; }
+  .hero { bottom: 126px; }
+  .hero h1 { font-size: 31px; }
+  .hero p { font-size: 11px; }
+  .chips a { padding: 8px 13px; }
+  .tiles { grid-template-columns: 1fr; }
+  .stepper li { font-size: 8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tilt { transform: none !important; }
+}

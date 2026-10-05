@@ -96,24 +96,44 @@ export default function Studio({ projects, sketches }) {
     const glow = (g, on) => g && g.traverse(o => { const m = o.material; if (m && m.emissive) { if (m.userData.e0 === undefined) m.userData.e0 = m.emissive.getHex(); m.emissive.setHex(on ? 0x4a3a18 : m.userData.e0) } })
     const aim = e => { const b = el.getBoundingClientRect(); mx = (e.clientX - b.left) / b.width - .5; my = (e.clientY - b.top) / b.height - .5; mp.set(mx * 2, -my * 2) }
     const move = e => {
+      // Hover labels are useful with a mouse, but touch devices should not
+      // constantly trigger hover state while scrolling/tapping.
+      if (e.pointerType && e.pointerType !== 'mouse') return
       aim(e); const h = pick()
       if (h !== hov) { glow(hov, false); glow(h, true); hov = h; target = h && h.userData.to === 'models' ? 1 : 0; el.style.cursor = h ? 'pointer' : 'default' }
       const t = tag.current; if (t) { const b = el.getBoundingClientRect(); t.textContent = h ? h.userData.label + ' →' : ''; t.style.opacity = h ? 1 : 0; t.style.left = e.clientX - b.left + 'px'; t.style.top = e.clientY - b.top + 'px' }
     }
     const click = e => { aim(e); const h = pick(); if (h) go(h.userData.to) }
     el.addEventListener('pointermove', move); el.addEventListener('click', click)
-    const rs = () => { r.setSize(W(), H()); cam.aspect = W() / H(); cam.updateProjectionMatrix() }; addEventListener('resize', rs)
+    // Keep the original desktop composition. Only tablet/phone aspect ratios
+    // receive a wider field of view and a farther camera distance.
+    const fitCamera = () => {
+      const aspect = W() / Math.max(H(), 1)
+      const mobile = aspect < .82
+      const tablet = !mobile && aspect < 1.15
+      cam.aspect = aspect
+      cam.fov = mobile ? 52 : tablet ? 45 : 38
+      cam.updateProjectionMatrix()
+      return { mobile, tablet }
+    }
+    const rs = () => { r.setSize(W(), H()); fitCamera() }; addEventListener('resize', rs)
     let raf, t0 = 0, cx = 0, cy = 4.2
     const loop = () => {
       raf = requestAnimationFrame(loop); t0 += .01
-      const narrow = cam.aspect < .9, d = narrow ? 21 : 13.5
-      cx += (mx * 4 + (narrow ? 1.2 : -1) - cx) * .05; cy += (4.2 - my * 1.6 - cy) * .05
-      cam.position.set(cx, cy, cam.position.z + (d - cam.position.z) * .05); cam.lookAt(narrow ? 1.5 : -1.2, 1.5, -1)
+      const { mobile, tablet } = fitCamera()
+      const d = mobile ? 24.5 : tablet ? 18 : 13.5
+      const side = mobile ? .25 : tablet ? -.25 : -1
+      const lookX = mobile ? .15 : tablet ? -.55 : -1.2
+      const lookY = mobile ? 1.35 : 1.5
+      cx += (mx * (mobile ? 1.8 : 4) + side - cx) * .05
+      cy += ((mobile ? 4.0 : 4.2) - my * (mobile ? 1.0 : 1.6) - cy) * .05
+      cam.position.set(cx, cy, cam.position.z + (d - cam.position.z) * .05)
+      cam.lookAt(lookX, lookY, -1.2)
       ex += (target - ex) * .08; lay.forEach((l, i) => (l.position.y = home[i] + ex * i * .55))
       leaves.forEach((l, i) => (l.rotation.x = Math.sin(t0 + i) * .03)); shade.rotation.y += .002
       r.render(s, cam)
     }
-    cam.position.z = 15; loop()
+    fitCamera(); cam.position.z = 15; loop()
     return () => { cancelAnimationFrame(raf); removeEventListener('resize', rs); el.removeEventListener('pointermove', move); el.removeEventListener('click', click); r.dispose(); r.domElement.remove() }
   }, [])
 
