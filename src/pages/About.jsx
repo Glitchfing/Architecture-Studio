@@ -3,7 +3,7 @@ import { Page, Tree, useEdit } from '../components/Common'
 import Uploader from '../components/Uploader'
 import { useKV } from '../store'
 
-const BIO = 'Tanvi is an architecture student who designs with brick, light and leaves. She loves quiet, minimal spaces, courtyards with trees, and rooms where a plant is part of the plan. Her work treats architecture as a process — sketched, modelled, rethought and built.'
+const BIO = 'Tanvi is an architecture student drawn to the quiet beauty of simplicity. With a keen eye for detail, her work explores minimal forms, neutral palettes, natural materials, and the relationship between built spaces and nature. She believes in creating spaces that are simple yet striking, contemporary yet warm — where plants, light, and material become an integral part of the architecture. Her approach is understated, thoughtful, and rooted in the idea that elegance often comes from less.'
 
 export default function About() {
   const { edit, ask } = useEdit(), [photo, setPhoto] = useKV('aboutPhoto', null), [bio, setBio] = useKV('bio', BIO), [up, setUp] = useState(false)
